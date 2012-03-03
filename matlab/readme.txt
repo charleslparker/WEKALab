@@ -80,13 +80,3 @@ Some classifiers, like svm_rbf, have their default options overridden by WEKALab
 For 'svm_rbf' and 'adaboost_tree' among others, you can pass in a second "internal options" string, that modifies the parameters of the weak classifier in the case of adaboost, and the parameters of the kernel in the case of svm_rbf.  You can again see these by using list options.
 
 To extend WekaLab to support more classifiers, or different sets of default options (e.g., a different default selection for 'k' in k-nearest neighbor), you need to modify WekaInterface.java, recompile, and reassemble WEKALab.jar.  This modification should be pretty straightforward, though, if you have decent access to the documentation.
-
-
-Limitations
--------------------
-Currently, the package has no support for nominal attributes or real-valued classes (regression).  You can hack nominal attribute support by assigning each value for the nominal attribute a real value, or converting it to a collection of binary attributes.  Both of these are suboptimal for the obvious reasons.
-
-Please contact me if you have questions about this software.  I'd be happy to try and correct any mistakes!
-
-Charles Parker
-clp@clparker.org
