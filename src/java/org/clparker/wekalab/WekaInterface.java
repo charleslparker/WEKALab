@@ -38,19 +38,12 @@ public class WekaInterface {
 
     public static final int KNN_1 = 5;
     public static final int KNN_10 = 6;
-    
+
     public static final int TREE = 7;
     public static final int ADABOOST_TREE = 8;
     public static final int ADABOOST_STUMP = 9;
-    
-    public static final int RANDOM_FOREST = 10;
-    
-    public static final int F1_TREE = 11;
-    public static final int F1_BOOST = 12;
-    public static final int INFO_GAIN_TREE = 13;
 
-    public static final int SIMPLE_KNN = 14;
-    public static final int KNN3 = 15;
+    public static final int RANDOM_FOREST = 10;
 
     public static Instances readArffFile(String file) {
         try {
@@ -91,7 +84,7 @@ public class WekaInterface {
             r.setCacheSize(0);
             Kernel k = r;
             s.setKernel(k);
-            
+
             classifier = s;
         }
         if (type == ADABOOST_TREE) {
@@ -105,26 +98,9 @@ public class WekaInterface {
             classifier = a;
         }
 
-        if (type == F1_TREE) classifier = new J48F1();
-        if (type == F1_BOOST) classifier = new BinaryTree(PointSet.F1);
-        if (type == INFO_GAIN_TREE) classifier = new BinaryTree(PointSet.INFO_GAIN);
-        
-        if (type == SIMPLE_KNN) {
-            classifier = new SimpleKnn();
-        }
-        
-        if (type == KNN3) {
-            IBk ibk = new IBk();
-            SelectedTag t = ibk.getDistanceWeighting();
-            weka.core.Tag[] tags = t.getTags();
-            ibk.setDistanceWeighting(new SelectedTag(IBk.WEIGHT_INVERSE, tags));
-            ibk.setKNN(3);
-            classifier = ibk;
-        }
-
         return classifier;
     }
-    
+
     public static Classifier trainClassifier(Instances in, int type, int clsAtt, String opts, String intOpts) {
         Classifier classifier = getClassifier(type);
         int classAttr = clsAtt - 1;
@@ -150,11 +126,11 @@ public class WekaInterface {
             return null;
         }
     }
-    
+
     public static Classifier trainClassifier(Instances in, int type, int classAttr, String opts) {
         return trainClassifier(in, type, classAttr, opts, "");
     }
-    
+
     public static Classifier trainClassifier(Instances in, int type, int classAttr) {
         return trainClassifier(in, type, classAttr, "", "");
     }
@@ -171,7 +147,7 @@ public class WekaInterface {
             System.out.println();
         }
     }
-    
+
     public static double[] getClassDistribution(Instance in, Classifier c) {
         try {
             return c.distributionForInstance(in);
@@ -182,7 +158,7 @@ public class WekaInterface {
         }
         return null;
     }
-    
+
     public static int classify(Instance in, Classifier c) {
         try {
             return (int)c.classifyInstance(in);
@@ -203,23 +179,23 @@ public class WekaInterface {
 
         for (int i = 0; i < numClasses; i++)
             classes.addElement(i + "");
-        
+
         for (int i = 0; i < d[0].length; i++) {
             if (i != classAttr) attInfo.addElement(new Attribute("att" + i));
             else attInfo.addElement(new Attribute("class", classes));
         }
-        
+
         Instances in = new Instances("weka-relation", attInfo, d.length);
-        
+
         for (int i = 0; i < d.length; i++) {
             in.add(createInstance(d[i], classAttr, in));
         }
-        
+
         in.setClassIndex(classAttr);
-        
+
         return in;
     }
-    
+
     public static void writeSet(Instances in, String file) {
         Writer w = new Writer(file);
         w.fileOnly();
@@ -227,12 +203,12 @@ public class WekaInterface {
         w.writeLine(in.toString());
         w.close();
     }
-    
+
     public static void writeArffFile(double[][] data, int clsInd, String file) {
         Instances in = createSet(data, clsInd);
         writeSet(in, file);
     }
-    
+
     public static void listClassifiers() {
         String s = "WekaInterface.BAYES - Naive Bayes Model\n" +
             "WekaInterface.LOGISTIC - Logistic Regression\n" +
@@ -247,14 +223,14 @@ public class WekaInterface {
             "WekaInterface.RANDOM_FOREST - Random Forests\n";
         System.out.println(s);
     }
-    
+
     public static Instance createInstance(double[] point, int classAttr, Instances in) {
         Instance newIn = new Instance(in.numAttributes());
         for (int j = 0; j < in.numAttributes(); j++) {
             Attribute att = in.attribute(j);
             if (j != classAttr)
                 newIn.setValue(att, point[j]);
-            else 
+            else
                 newIn.setValue(att, "" + (int)(point[j]));
         }
         newIn.setDataset(in);
@@ -268,7 +244,7 @@ public class WekaInterface {
             if (!point[j].isEmpty() && !point[j].equals("?")) {
                 if (att.isNominal())
                     newIn.setValue(att, point[j]);
-                else 
+                else
                     newIn.setValue(att, Double.parseDouble(point[j]));
             }
             else {
@@ -278,7 +254,7 @@ public class WekaInterface {
         newIn.setDataset(in);
         return newIn;
     }
-    
+
     public static double[][] setToDouble(Instances in) {
         double[][] set = new double[in.numInstances()][in.numAttributes()];
         for (int i = 0; i < in.numInstances(); i++) {
