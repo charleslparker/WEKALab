@@ -1,3 +1,4 @@
-(defproject my-stuff "0.1.0-SNAPSHOT"
-  :description "Extremely simple interface from WEKA to Java"
-  :dependencies [weka "3.6.2"])
+(defproject org.clparker/wekalab "0.3.0-SNAPSHOT"
+  :description "Extremely simple interface from WEKA to MATLAB"
+  :java-source-path "src/java"
+  :dependencies [[weka "3.6.2"]])
