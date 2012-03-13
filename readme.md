@@ -9,7 +9,7 @@ The goal is to provide a way to do some basic testing of classifiers without lea
 
 ## Installation
 
-WEKALab is a leiningen project (in anticipation of interfacing to Clojure someday).  To build it, you'll need to install leiningen.  For Mac, the easiest thing I've found is to install and use homebrew by typing `brew install leiningen`.  I'm sure Linux variants all have the ability to install it as a package.  For Windows, there's usually a package available for download here:
+WEKALab is a [Leiningen](https://github.com/technomancy/leiningen) project (in anticipation of interfacing to Clojure someday).  To build it, you'll need to install Leiningen.  For Mac, the easiest thing I've found is to install and use homebrew by typing `brew install leiningen`.  I'm sure Linux variants all have the ability to install it as a package.  For Windows, there's usually a package available for download here:
 
 https://github.com/technomancy/leiningen/downloads
 
@@ -62,7 +62,7 @@ A simple test to do here is 10 fold cross-validation using, say, decision tress:
 
 The output variables are, in order, the overall accuracy on the set, an n x n "confusion matrix" where n is the number of classes, an n x r matrix of predictions on each point where r is the number of points, and the model learned on the entire dataset.
 
-The point-wise prediction vector, p, is something not available in the GUI that comes with WEKA, and proves very handy if you want a breakdown of exactly which points you've gotten wrong.  Each row in p has n columns, and each column is the probability of that point in the input matrix belonging to the corresponding class according to the model, so the first column in the jth row of p is the probability that the point M(j,:) belongs to class 0, the second column to class 1, etc.
+The point-wise prediction vector, p, is something not available in the GUI that comes with WEKA, and proves very handy if you want a breakdown of exactly which points you've gotten wrong.  Each row in `p` has n columns, and each column is the "probability" of that point in the input matrix belonging to the corresponding class according to the model, so the first column in the `j`th row of `p` is the "probability" that the point `M(j,:)` belongs to class `0`, the second column to class `1`, etc.
 
 Also note that the function does not randomize your data!  If you wish the data to be randomized, you must do it yourself beforehand!
 
@@ -72,14 +72,14 @@ To train a model on your dataset without testing it, do:
 > C = trainclassifier(M, 'tree');
 ```
 
-If you wish to classify a point, define the point with the same number of colums as the input data and then use getclassdistribution:
+If you wish to classify a point, define the point with the same number of colums as the input data and then use `getclassdistribution`:
 
 ```
 > k = [0 0 0 0 0];
 > getclassdistribution(C, k)
 ```
 
-Note that getclassdistribution also works for matrices:
+Note that `getclassdistributio`n also works for matrices:
 
 ```
 > getclassdistribution(C, M)
@@ -93,7 +93,7 @@ Finally, if you want to output your matrix to ARFF format:
 > writearfffile(M, 'iris.test')
 ```
 
-Note that the text class labels are not recovered (they are still integers) and there is a line at the very beginning of the file '%@SIZE'. . .  This is for some of my own C code that reads this data into a data structure and needs to preallocate.  WEKA itself ignores lines beginning with '%', and so this file should read fine into WEKA.
+Note that the text class labels are not recovered (they are still integers) and there is a line at the very beginning of the file `%@SIZE`...  This is for some of my own C code that reads this data into a data structure and needs to preallocate.  WEKA itself ignores lines beginning with `%`, and so this file should read fine into WEKA.
 
 ## Extensions
 
