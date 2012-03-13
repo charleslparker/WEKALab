@@ -7,12 +7,10 @@ function wlsetup()
     %   to be reloaded.
     
     s = which('wlsetup');
-    wdir = s(1:end - 10);
-    wjar = [wdir '\weka.jar'];
-    wljar = [wdir '\WEKALab.jar'];
+    wdir = s(1:end - 21);
+    wljar = [wdir '\wekalab.jar'];
     clspth = [matlabroot '\toolbox\local\classpath.txt'];
     fout = fopen(clspth, 'a');
-    fprintf(fout, '%s\n', wjar);
     fprintf(fout, '%s\n', wljar);
     addpath(wdir);
     fclose(fout);
