@@ -10,38 +10,38 @@ public class WekaModel {
     
     public WekaModel() {}
     
-    public WekaModel(Instances in, int type, int classAttr, String opts, String intOpts) {
+    public WekaModel(Instances in, String type, int classAttr, String opts, String intOpts) {
         trainModel(in, type, classAttr, opts, intOpts);
     }
     
-    public WekaModel(Instances in, int type, int classAttr) {
+    public WekaModel(Instances in, String type, int classAttr) {
         trainModel(in, type, classAttr, "", "");
     }
 
-    public WekaModel(double[][] data, int type, int classAttr, String opts, String intOpts) {
+    public WekaModel(double[][] data, String type, int classAttr, String opts, String intOpts) {
         trainModel(data, type, classAttr, opts, intOpts);
     }
 
-    public WekaModel(double[][] data, int type, int classAttr) {
+    public WekaModel(double[][] data, String type, int classAttr) {
         trainModel(data, type, classAttr, "", "");
     }
     
-    public void trainModel(Instances in, int type, int classAttr, String opts, String intOpts) {
+    public void trainModel(Instances in, String type, int classAttr, String opts, String intOpts) {
         refSet = in;
         classifier = WekaInterface.trainClassifier(refSet, type, classAttr, opts, intOpts);
     }
     
-    public void trainModel(Instances in, int type, int classAttr) {
+    public void trainModel(Instances in, String type, int classAttr) {
         refSet = in;
         classifier = WekaInterface.trainClassifier(refSet, type, classAttr, "", "");
     }
 
-    public void trainModel(double[][] data, int type, int classAttr, String opts, String intOpts) {
+    public void trainModel(double[][] data, String type, int classAttr, String opts, String intOpts) {
         refSet = WekaInterface.createSet(data, classAttr);
         classifier = WekaInterface.trainClassifier(refSet, type, classAttr, opts, intOpts);
     }    
 
-    public void trainModel(double[][] data, int type, int classAttr) {
+    public void trainModel(double[][] data, String type, int classAttr) {
         refSet = WekaInterface.createSet(data, classAttr);
         classifier = WekaInterface.trainClassifier(refSet, type, classAttr, "", "");
     }

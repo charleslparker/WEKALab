@@ -32,7 +32,6 @@ function c = trainclassifier(train, type, classattr, opts, intopts)
         intopts = '';
     end
     
-	ntype = getmodel(type);
     tset = org.clparker.wekalab.WekaInterface.createSet(train, classattr);
-    c = org.clparker.wekalab.WekaModel(tset, ntype, classattr, opts, intopts);
+    c = org.clparker.wekalab.WekaModel(tset, type, classattr, opts, intopts);
 end

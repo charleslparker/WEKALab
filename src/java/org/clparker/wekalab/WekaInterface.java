@@ -28,22 +28,22 @@ import org.clparker.utils.Writer;
 import org.clparker.utils.Libes;
 
 public class WekaInterface {
-    public static final int BAYES = 0;
-    public static final int LOGISTIC = 1;
+    public static final String BAYES = "bayes";
+    public static final String LOGISTIC = "logistic";
 
-    public static final int PERCEPTRON = 2;
+    public static final String PERCEPTRON = "perceptron";
 
-    public static final int SVM_POLY = 3;
-    public static final int SVM_RBF = 4;
+    public static final String SVM_POLY = "svm_poly";
+    public static final String SVM_RBF = "svm_rbf";
 
-    public static final int KNN_1 = 5;
-    public static final int KNN_10 = 6;
+    public static final String KNN_1 = "knn_1";
+    public static final String KNN_10 = "knn_10";
 
-    public static final int TREE = 7;
-    public static final int ADABOOST_TREE = 8;
-    public static final int ADABOOST_STUMP = 9;
+    public static final String TREE = "tree";
+    public static final String BOOST_TREE = "boost_tree";
+    public static final String BOOST_STUMP = "boost_stump";
 
-    public static final int RANDOM_FOREST = 10;
+    public static final String RANDOM_FOREST = "random_forest";
 
     public static Instances readArffFile(String file) {
         try {
@@ -56,13 +56,13 @@ public class WekaInterface {
         }
     }
 
-    public static Classifier getClassifier(int type) {
+    public static Classifier getClassifier(String type) {
         Classifier classifier = null;
-        if (type == BAYES) classifier = new NaiveBayes();
-        if (type == LOGISTIC) classifier = new Logistic();
-        if (type == TREE) classifier = new J48();
-        if (type == KNN_1) classifier = new IBk();
-        if (type == KNN_10) {
+        if (type.equals(BAYES)) classifier = new NaiveBayes();
+        if (type.equals(LOGISTIC)) classifier = new Logistic();
+        if (type.equals(TREE)) classifier = new J48();
+        if (type.equals(KNN_1)) classifier = new IBk();
+        if (type.equals(KNN_10)) {
             IBk ibk = new IBk();
             SelectedTag t = ibk.getDistanceWeighting();
             weka.core.Tag[] tags = t.getTags();
@@ -70,15 +70,15 @@ public class WekaInterface {
             ibk.setKNN(10);
             classifier = ibk;
         }
-        if (type == PERCEPTRON) classifier = new VotedPerceptron();
-        if (type == RANDOM_FOREST) classifier = new RandomForest();
-        if (type == SVM_POLY) {
+        if (type.equals(PERCEPTRON)) classifier = new VotedPerceptron();
+        if (type.equals(RANDOM_FOREST)) classifier = new RandomForest();
+        if (type.equals(SVM_POLY)) {
             SMO s = new SMO();
             Kernel k = new PolyKernel();
             s.setKernel(k);
             classifier = s;
         }
-        if (type == SVM_RBF) {
+        if (type.equals(SVM_RBF)) {
             SMO s = new SMO();
             RBFKernel r = new RBFKernel();
             r.setCacheSize(0);
@@ -87,12 +87,12 @@ public class WekaInterface {
 
             classifier = s;
         }
-        if (type == ADABOOST_TREE) {
+        if (type.equals(BOOST_TREE)) {
             AdaBoostM1 a = new AdaBoostM1();
             a.setClassifier(new J48());
             classifier = a;
         }
-        if (type == ADABOOST_STUMP) {
+        if (type.equals(BOOST_STUMP)) {
             AdaBoostM1 a = new AdaBoostM1();
             a.setClassifier(new DecisionStump());
             classifier = a;
@@ -101,14 +101,14 @@ public class WekaInterface {
         return classifier;
     }
 
-    public static Classifier trainClassifier(Instances in, int type, int clsAtt, String opts, String intOpts) {
+    public static Classifier trainClassifier(Instances in, String type, int clsAtt, String opts, String intOpts) {
         Classifier classifier = getClassifier(type);
         int classAttr = clsAtt - 1;
         try {
             if (!intOpts.equals("")) {
-                if (type == ADABOOST_TREE)
+                if (type.equals(BOOST_TREE))
                     ((AdaBoostM1)classifier).getClassifier().setOptions(Utils.splitOptions(intOpts));
-                else if (type == SVM_RBF || type == SVM_POLY)
+                else if (type.equals(SVM_RBF) || type.equals(SVM_POLY))
                     ((SMO)classifier).getKernel().setOptions(Utils.splitOptions(intOpts));
                 else
                     System.err.println("Warning: Classifier type does not support internal options!");
@@ -127,15 +127,15 @@ public class WekaInterface {
         }
     }
 
-    public static Classifier trainClassifier(Instances in, int type, int classAttr, String opts) {
+    public static Classifier trainClassifier(Instances in, String type, int classAttr, String opts) {
         return trainClassifier(in, type, classAttr, opts, "");
     }
 
-    public static Classifier trainClassifier(Instances in, int type, int classAttr) {
+    public static Classifier trainClassifier(Instances in, String type, int classAttr) {
         return trainClassifier(in, type, classAttr, "", "");
     }
 
-    public static void listOptions(int type) {
+    public static void listOptions(String type) {
         Classifier classifier = getClassifier(type);
         Enumeration<?> e = classifier.listOptions();
 
@@ -210,17 +210,17 @@ public class WekaInterface {
     }
 
     public static void listClassifiers() {
-        String s = "WekaInterface.BAYES - Naive Bayes Model\n" +
-            "WekaInterface.LOGISTIC - Logistic Regression\n" +
-            "WekaInterface.PERCEPTRON - Voted Perceptron\n" +
-            "WekaInterface.SVM_POLY - SVM with Polynomial Kernel\n" +
-            "WekaInterface.SVM_RBF - SVM with Radial Basis Function Kernel\n" +
-            "WekaInterface.KNN_1 - 1-Nearest Neighbor\n" +
-            "WekaInterface.KNN_10 - 10-Nearest Neighbor\n" +
-            "WekaInterface.TREE - Decision Tree (J48)\n" +
-            "WekaInterface.ADABOOST_TREE - Adaptive Boosting with Decision Trees\n" +
-            "WekaInterface.ADABOOST_STUMP - Adaptive Boosting with Decision Stumps\n" +
-            "WekaInterface.RANDOM_FOREST - Random Forests\n";
+        String s = BAYES + " - Naive Bayes Model\n" +
+            LOGISTIC + " - Logistic Regression\n" +
+            PERCEPTRON + " - Voted Perceptron\n" +
+            SVM_POLY + " - SVM with Polynomial Kernel\n" +
+            SVM_RBF + " - SVM with Radial Basis Function Kernel\n" +
+            KNN_1 + " - 1-Nearest Neighbor\n" +
+            KNN_10 + " - 10-Nearest Neighbor\n" +
+            TREE + " - Decision Tree (J48)\n" +
+            BOOST_TREE + " - Adaptive Boosting with Decision Trees\n" +
+            BOOST_STUMP + " - Adaptive Boosting with Decision Stumps\n" +
+            RANDOM_FOREST + " - Random Forests\n";
         System.out.println(s);
     }
 
