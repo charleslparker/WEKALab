@@ -13,7 +13,7 @@ WEKALab is a [Leiningen](https://github.com/technomancy/leiningen) project (in a
 
 https://github.com/technomancy/leiningen/downloads
 
-Make sure that you can run javac from the command line, as Leiningen will fail otherwise.  Once you've got Leiningen in place, build the WEKALab jars by typing, in this repo's directory:
+Make sure that you can run `javac` from the command line, as Leiningen will fail otherwise.  Once you've got Leiningen in place, build the WEKALab jars by typing, in this repo's directory:
 
 ```
 lein deps
@@ -54,7 +54,7 @@ The double matrix M now contains the data in the file, with rows as data points 
 
 Note here that **you don't have to read in data from an ARFF file**.  You could create this matrix yourself within matlab and things would work just as well.  This is not a special data structure, just a double matrix.  This is the whole point of WEKALab:  It works fine with ordinary Matlab matrices.
 
-A simple test to do here is 10 fold cross-validation using, say, decision tress:
+A simple test to do here is 10 fold cross-validation using, say, decision trees:
 
 ```
 > [a c p m] = crossvalidate(M, 'tree', 10)
@@ -62,7 +62,7 @@ A simple test to do here is 10 fold cross-validation using, say, decision tress:
 
 The output variables are, in order, the overall accuracy on the set, an n x n "confusion matrix" where n is the number of classes, an n x r matrix of predictions on each point where r is the number of points, and the model learned on the entire dataset.
 
-The point-wise prediction vector, p, is something not available in the GUI that comes with WEKA, and proves very handy if you want a breakdown of exactly which points you've gotten wrong.  Each row in `p` has n columns, and each column is the "probability" of that point in the input matrix belonging to the corresponding class according to the model, so the first column in the `j`th row of `p` is the "probability" that the point `M(j,:)` belongs to class `0`, the second column to class `1`, etc.
+The point-wise prediction vector, `p`, is something not available in the GUI that comes with WEKA, and proves very handy if you want a breakdown of exactly which points you've gotten wrong.  Each row in `p` has n columns, and each column is the "probability" of that point in the input matrix belonging to the corresponding class according to the model, so the first column in the `j`th row of `p` is the "probability" that the point `M(j,:)` belongs to class `0`, the second column to class `1`, etc.
 
 Also note that the function does not randomize your data!  If you wish the data to be randomized, you must do it yourself beforehand!
 
@@ -79,7 +79,7 @@ If you wish to classify a point, define the point with the same number of colums
 > getclassdistribution(C, k)
 ```
 
-Note that `getclassdistributio`n also works for matrices:
+Note that `getclassdistribution` also works for matrices:
 
 ```
 > getclassdistribution(C, M)
@@ -87,7 +87,7 @@ Note that `getclassdistributio`n also works for matrices:
 
 The important thing, again, is that the matrix have the same number of columns as the training data.  The values you use for the classes, obviously, can be dummy values, but they must be there.
 
-Finally, if you want to output your matrix to ARFF format:
+Finally, if you want to output your matrix to ARFF format for use in e.g., the WEKA GUI:
 
 ```
 > writearfffile(M, 'iris.test')
@@ -111,7 +111,7 @@ Or, for example:
 
 Some classifiers, like `svm_rbf`, have their default options overridden by WEKALab (in this case, to select the RBF kernel).
 
-For `svm_rbf` and `boost_tree`, you can pass in a second "internal options" string, that modifies the parameters of the weak classifier in the case of adaboost, and the parameters of the kernel in the case of svm_rbf.  You can again see these by using `listoptions`.
+For `svm_rbf` and `boost_tree`, you can pass in a second "internal options" string, that modifies the parameters of the weak classifier in the case of adaboost, and the parameters of the kernel in the case of `svm_rbf`.  You can again see these by using `listoptions`.
 
 ## Modification
 
