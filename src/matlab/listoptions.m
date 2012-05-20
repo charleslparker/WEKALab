@@ -7,5 +7,5 @@ function listoptions(type)
     %   compose a string of them such as '-X 20 -Y -Z 4 5' and pass them in
     %   to the opt parameter of TRAINCLASSIFIER, TRAINANDTEST, or
     %   CROSSVALIDATE.
-    org.clparker.wekalab.WekaInterface.listOptions(getmodel(type));
+    org.clparker.wekalab.WekaInterface.listOptions(type);
 end
