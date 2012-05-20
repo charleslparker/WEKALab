@@ -24,16 +24,18 @@ WEKALab is a [Leiningen](https://github.com/technomancy/leiningen) project (in a
 
 https://github.com/technomancy/leiningen/downloads
 
-Make sure that you can run `javac` from the command line, as Leiningen will fail otherwise.  Once you've got Leiningen in place, build the WEKALab jars by typing, in this repo's directory:
+Make sure that you can run `javac` from the command line, as Leiningen will fail otherwise.  Once you've got Leiningen in place, build the WEKALab jars by typing, in this repo's directory (not in Matlab, at the OS command line):
 
 ```
 $ lein deps
 $ lein uberjar
 ```
 
+You should see two jar files in the repo root after running these commands, one of which should be `wekalab.jar`.
+
 ### Installing in Matlab
 
-To install WEKALab for use with Matlab, simply add `src/matlab` to your Matlab path, then type:
+To install WEKALab for use with Matlab, simply add `src/matlab` to your Matlab path, then type (at the Matlab command prompt):
 
 ```
 >> wlsetup
